@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastro de Lotes de Produção</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#111827;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    width:500px;
+    background:#1f2937;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 0 20px rgba(0,0,0,.4);
+}
+
+h2{
+    color:white;
+    margin-bottom:5px;
+}
+
+p{
+    color:#bbb;
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    color:white;
+    margin-top:15px;
+    margin-bottom:6px;
+}
+
+input,select{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #666;
+    background:#111827;
+    color:white;
+}
+
+.status{
+    display:flex;
+    gap:25px;
+    margin-top:10px;
+    color:white;
+}
+
+button{
+    margin-top:25px;
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:8px;
+    background:#ff007f;
+    color:white;
+    font-size:17px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    background:#d6006d;
+}
+
+#mensagem{
+    margin-top:20px;
+    display:none;
+    background:#00c9a7;
+    color:white;
+    padding:15px;
+    border-radius:8px;
+    font-weight:bold;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Cadastro de Lotes de Produção</h2>
+<p>Sistema Corporativo – Ambiente de Teste</p>
+
+<form id="formulario">
+
+<label>Número do Lote</label>
+<input
+type="text"
+id="lote"
+placeholder="Ex.: LOTE-2025-0001"
+required>
+
+<label>Produto</label>
+<select id="produto" required>
+<option value="">Selecione um produto</option>
+<option>Notebook</option>
+<option>Mouse</option>
+<option>Teclado</option>
+<option>Monitor</option>
+</select>
+
+<label>Status</label>
+
+<div class="status">
+<label><input type="radio" name="status" value="Pendente" checked> Pendente</label>
+<label><input type="radio" name="status" value="Em Processamento"> Em Processamento</label>
+<label><input type="radio" name="status" value="Concluído"> Concluído</label>
+</div>
+
+<button type="submit">
+Processar Lote
+</button>
+
+</form>
+
+<div id="mensagem">
+✅ Sucesso! Lote processado com sucesso.
+</div>
+
+</div>
+
+<script>
+document.getElementById("formulario").addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    document.getElementById("mensagem").style.display="block";
+
+});
+</script>
+
+</body>
+</html>
