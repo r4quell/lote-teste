@@ -29,6 +29,40 @@ focado no **Cadastro de Lotes de Produção**. O Formulário é composto pelo se
 - **Bibliotecas de Automação e Raspagem:**
   - Selenium
   - Webdriver-manager
+  - Playwright
+
+
+## Estrutura do projeto
+```text
+projeto-pom/
+├── src/
+│   └── pages/
+│       ├── __init__.py
+│       ├── login_page.py
+│       └── form_page.py
+├── tests/
+│   └── test_cadastro.py
+├── main.py
+├── index.html
+├── inventory.html
+├── requirements.txt
+└── README.md
+```
+
+## Instalação
+```bash
+pip install -r requirements.txt
+```
+
+## Execução
+```bash
+python main.py
+```
+
+## Execução dos testes
+```bash
+pytest
+```
 
 ## Padrões de Projetos aplicados
 
