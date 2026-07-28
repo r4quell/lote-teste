@@ -27,7 +27,7 @@ focado no **Cadastro de Lotes de Produção**. O Formulário é composto pelo se
 
 - **Linguagem de Programação:** Python 3.12
 - **Bibliotecas de Automação e Raspagem:**
-  - Selenium / Playwright
+  - Selenium
   - Webdriver-manager
 
 ## Padrões de Projetos aplicados
