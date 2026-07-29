@@ -1,75 +1,99 @@
-# Automação e Raspagem: Cadastro de Lotes de Produção
+# Automação e Cadastro de Lotes com Page Object Model
 
 ## Objetivo
 
-O Principal objetivo deste projeto é compreender e aplicar o processo de raspagem
-de dados (Web Scraping) e automação de interface utilizando padrões de projeto,
-com destaque para o **Page Object Model (POM)**.
+Este projeto demonstra automação de interface em um ambiente fictício de
+cadastro de lotes de produção. A implementação aplica Page Object Model (POM)
+para separar o mapeamento e as interações com elementos web da lógica de
+execução, facilitando reutilização, manutenção e testes.
 
-A ideia é criar classes raspagem modulares, que separa os mapeamentos dos elementos web da lógica
-de execução. Promovendo:
+O formulário contém número do lote, produto, status e a ação de processamento.
+Nenhuma credencial ou sistema real é utilizado.
 
-- **Reaproveitamento de código**
-- **Código Limpo**
-- **Conciso e de fácil de Manutenção**
+## Tecnologias
 
-## Cenário
+- Python 3.12 ou superior
+- Selenium
+- Playwright
+- pytest
+- webdriver-manager
 
-O projeto automatiza as interações com um sistema corporativo (ambiente de teste)
-focado no **Cadastro de Lotes de Produção**. O Formulário é composto pelo seguintes elementos:
-- **Número do Lote:** Campo de entrada de texto (ex: `LOTE-2025-0001`).
-- **Produto:** Menu de seleção (*dropdown*) contendo opções como Notebook, Mouse, Teclado e Monitor.
-- **Status:** Botões de rádio (*radio buttons*) para os estados "Pendente", "Em Processamento" e "Concluído".
-- **Ação:** Botão "Processar Lote", que aciona a simulação de cadastro e exibe a mensagem de sucesso no sistema.
+## Arquitetura
 
-
-## Tecnologias Utilizadas
-
-- **Linguagem de Programação:** Python 3.12
-- **Bibliotecas de Automação e Raspagem:**
-  - Selenium
-  - Webdriver-manager
-  - Playwright
-
-
-## Estrutura do projeto
 ```text
-projeto-pom/
-├── src/
-│   └── pages/
-│       ├── __init__.py
-│       ├── login_page.py
-│       └── form_page.py
-├── tests/
-│   └── test_cadastro.py
-├── main.py
-├── index.html
-├── inventory.html
-├── requirements.txt
-└── README.md
+src/
+├── pages/
+│   ├── login_page.py
+│   └── form_page.py
+├── automation/
+│   ├── common.py
+│   ├── web_automation.py
+│   └── selenium_automation.py
+├── config/
+├── utils/
+└── main.py
+tests/
+└── test_pages.py
 ```
 
+Os Page Objects concentram locators, esperas explícitas e ações de UI. Os
+orquestradores concentram fluxo, iteração, logs, screenshots, exceções e
+DataPool. `LoginPage` está preparado para uma futura tela de autenticação; o
+HTML local atual contém somente o formulário e usa diretamente `FormPage`.
+
+## Fluxo da automação
+
+1. A CLI seleciona Selenium ou Playwright.
+2. O Page Object abre `lote-teste.html`.
+3. O orquestrador entrega um dicionário de lote a `preencher_lote`.
+4. `is_sucesso` valida a confirmação.
+5. São salvos screenshot, JSON, log e o caminho no DataPool local.
+
 ## Instalação
+
 ```bash
-pip install -r requirements.txt
+python -m venv .venv
+.venv\Scripts\activate
+python -m pip install -r requirements.txt
+python -m playwright install chromium
 ```
 
 ## Execução
+
 ```bash
-python main.py
+python bot.py --engine selenium
+python bot.py --engine playwright
 ```
 
-## Execução dos testes
+Use `--headed` para exibir o navegador. Evidências são gravadas em
+`evidencias/` e o DataPool simulado em `datapool.json`.
+
+## Testes
+
 ```bash
-pytest
+python -m pytest
 ```
 
-## Padrões de Projetos aplicados
+Os testes usam doubles e não acessam navegador ou sistema real.
 
-- **Page Object Model (POM):** Utilizado para mapear as páginas da aplicação em classes distintas. Em vez de espalhar seletores e interações (como *clicks* e *inputs*) pelos scripts principais, tudo é encapsulado em métodos dentro da classe da página (ex: `PaginaCadastroLote`).
-- **Orientação a Objetos (POO):** Encapsulamento, abstração e reutilização de componentes.
+## DataPool e Maestro
 
-## Membros da Equipe
+`DataPool` é um protocolo injetável. `JsonDataPool` oferece execução local; um
+gateway BotCity Maestro pode implementar o mesmo método `registrar` usando
+credenciais fornecidas pelo ambiente, sem contaminar os Page Objects.
+
+## GitFlow
+
+O trabalho é desenvolvido na branch `feature/page-object` com commit semântico:
+
+```text
+feat(page-object): implement Page Object Model for web automation
+```
+
+Consulte [PDD.md](PDD.md) para responsabilidades, fluxograma e rastreabilidade.
+
+## Equipe
+
 - Carlos Souza
 - Gustavo Nunes
 - Raquel
